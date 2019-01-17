@@ -188,8 +188,13 @@
 </div>
 
 <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script SRC="gsheet.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="https://spreadsheets.google.com/feeds/cells/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/1/public/values?alt=json-in-script&callback=gSheetDoData"></script>
+
 <script>
   (function (document) {
+
     //http://stackoverflow.com/a/10372280/398634
     window.URL = window.URL || window.webkitURL;
     var el_stetus = document.getElementById("status"),
@@ -423,16 +428,20 @@
 
 
     /* come from sharing */
-    if (location.hash.length > 1) {
+    /*if (location.hash.length > 1) {
       editor.getSession().setValue(decodeURIComponent(location.hash.substring(1)));
-    }
+    }*/
+
+    editor.getSession().setValue(gSheetGetData());
 
     /* Init */
     if (editor.getValue()) {
       renderGraph();
     }
+
   })(document);
 </script>
 <script src="viz.js" type="text/javascript" charset="utf-8"></script>
+
 </body>
 </html>
