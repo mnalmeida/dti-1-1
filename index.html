@@ -157,8 +157,8 @@
     <label id="format">
         Format:
         <select>
-            <option selected="">svg</option>
-            <option>png-image-element</option>
+            <option>svg</option>
+            <option selected="">png-image-element</option>
             <option>json</option>
             <option>xdot</option>
             <option>plain</option>
@@ -432,7 +432,9 @@
       editor.getSession().setValue(decodeURIComponent(location.hash.substring(1)));
     }*/
 
-    editor.getSession().setValue(gSheetGetData());
+    var gsheet = gSheetGetData();
+    if (gsheet)
+      editor.getSession().setValue(gsheet);
 
     /* Init */
     if (editor.getValue()) {
