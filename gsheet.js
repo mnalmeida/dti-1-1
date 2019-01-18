@@ -99,9 +99,14 @@ function gSheetDoData(json) {
 }
 
 function gSheetGetData() {    
-    while(!graphStr) 
-        void 0;
+    var i = 0;
+    while(!graphStr && i < 100) 
+        i++;
     return graphStr;
+}
+
+function gSheetClear() {
+    graphStr = null;
 }
 
 // reference: https://gist.github.com/terrywbrady/a03b25fe42959b304b1e

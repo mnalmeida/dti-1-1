@@ -183,6 +183,7 @@
 
     <label>
       <input type="button" value="Reload" id="reload">
+      <label id="reloading" style="display: none">Reloading ...</label>
     </label>
 
     <div style="display: none">
@@ -231,6 +232,7 @@
       shareEl = document.querySelector("#share"),
       shareURLEl = document.querySelector("#shareurl"),
       reloadEl = document.querySelector("#reload"),
+      reloadingEl = document.querySelector("#reloading"),
       errorEl = document.querySelector("#error");
 
     function show_status(text, hide) {
@@ -436,11 +438,27 @@
     });
 
     function reloadGSheet() {
+
+      gSheetClear();
+
+      reloadingEl.style.display = "inline";
+
+      var head = document.querySelector("head");
       var elem = document.querySelector("#gsheetscript");
-      var url = elem.src;
-      elem.innerHTML = "";
-      elem.src = "";
-      elem.src = url;            
+      var url = elem.src;      
+      elem.parentNode.removeChild(elem);
+
+      var newElem = document.createElement("script");
+      newElem.id = "gsheetscript";
+      newElem.src = url;
+      head.appendChild(newElem);
+
+      setTimeout(function() {
+        reloadingEl.style.display = "none";
+        var gsheet = gSheetGetData();
+        if (gsheet)
+          editor.getSession().setValue(gsheet);          
+        }, 1000);
     }
 
     window.onpopstate = function(event) {
