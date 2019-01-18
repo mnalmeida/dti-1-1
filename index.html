@@ -10,6 +10,17 @@
             margin: 0 0;
         }
 
+        #gsheet {
+          margin: 0;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 50%;
+          left: 0;
+          width: 50%;
+          height: 100%;
+        }
+
         #editor {
             margin: 0;
             position: absolute;
@@ -17,6 +28,7 @@
             bottom: 0;
             right: 50%;
             left: 0;
+            display: none;
         }
 
         #review {
@@ -114,6 +126,7 @@
     </style>
 </head>
 <body>
+<iframe id="gsheet" src="https://docs.google.com/spreadsheets/d/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/edit?usp=sharing"></iframe>
 <pre id="editor">digraph G {
 
   subgraph cluster_0 {
@@ -142,23 +155,25 @@
   end [shape=Msquare];
 }</pre>
 <div id="options">
-    <label id="engine">
-        Engine:
-        <select disabled>
-            <option>circo</option>
-            <option>dot</option>
-            <option selected="">fdp</option>
-            <option>neato</option>
-            <option>osage</option>
-            <option>twopi</option>
-        </select>
-    </label>
+    <div style="display: none">
+      <label id="engine">
+          Engine:
+          <select disabled>
+              <option>circo</option>
+              <option>dot</option>
+              <option selected="">fdp</option>
+              <option>neato</option>
+              <option>osage</option>
+              <option>twopi</option>
+          </select>
+      </label>
+    </div>
 
     <label id="format">
         Format:
         <select>
-            <option>svg</option>
-            <option selected="">png-image-element</option>
+            <option selected="">svg</option>
+            <option>png-image-element</option>
             <option>json</option>
             <option>xdot</option>
             <option>plain</option>
@@ -166,15 +181,19 @@
         </select>
     </label>
 
-    <label id="raw" class="disabled">
-        <input type="checkbox" disabled=""> Show raw output
-    </label>
-
     <label>
-        <input type="button" value="Share" id="share">
+      <input type="button" value="Reload" id="reload">
     </label>
 
-    <input type="input" value="" id="shareurl">
+    <div style="display: none">
+      <label id="raw" class="disabled">
+          <input type="checkbox" disabled=""> Show raw output
+      </label>
+      <label>
+          <input type="button" value="Share" id="share">
+      </label>
+      <input type="input" value="" id="shareurl">
+    </div>
 
 </div>
 <div id="review">
@@ -190,7 +209,7 @@
 <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script SRC="gsheet.js" type="text/javascript" charset="utf-8"></script>
 
-<script src="https://spreadsheets.google.com/feeds/cells/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/1/public/values?alt=json-in-script&callback=gSheetDoData"></script>
+<script id="gsheetscript" src="https://spreadsheets.google.com/feeds/cells/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/1/public/values?alt=json-in-script&callback=gSheetDoData"></script>
 
 <script>
   (function (document) {
@@ -211,6 +230,7 @@
       rawEl = document.querySelector("#raw input"),
       shareEl = document.querySelector("#share"),
       shareURLEl = document.querySelector("#shareurl"),
+      reloadEl = document.querySelector("#reload"),
       errorEl = document.querySelector("#error");
 
     function show_status(text, hide) {
@@ -415,6 +435,14 @@
       lastHD = setTimeout(renderGraph, 1500);
     });
 
+    function reloadGSheet() {
+      var elem = document.querySelector("#gsheetscript");
+      var url = elem.src;
+      elem.innerHTML = "";
+      elem.src = "";
+      elem.src = url;            
+    }
+
     window.onpopstate = function(event) {
       if (event.state != null && event.state.content != undefined) {
         editor.getSession().setValue(decodeURIComponent(event.state.content));
@@ -425,7 +453,7 @@
     engineEl.addEventListener("change", renderGraph);
     rawEl.addEventListener("change", renderGraph);
     share.addEventListener("click", copyShareURL);
-
+    reloadEl.addEventListener("click", reloadGSheet);
 
     /* come from sharing */
     /*if (location.hash.length > 1) {
