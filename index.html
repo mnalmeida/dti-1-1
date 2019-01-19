@@ -169,6 +169,22 @@
       </label>
     </div>
 
+    <label id="tribe">
+      Tribe:
+      <select>
+        <option selected="">dti</option>
+        <option>balboa</option>
+        <option>camaleao</option>
+        <option>curingas</option>
+        <option>gc</option>
+        <option>javalis</option>
+        <option>origami</option>
+        <option>rackers</option>
+        <option>rubix</option>
+        <option>triforce</option>
+      </select>
+    </label>
+
     <label id="format">
         Format:
         <select>
@@ -226,6 +242,7 @@
       worker = null,
       parser = new DOMParser(),
       showError = null,
+      tribeEl = document.querySelector("#tribe select"),
       formatEl = document.querySelector("#format select"),
       engineEl = document.querySelector("#engine select"),
       rawEl = document.querySelector("#raw input"),
