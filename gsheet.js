@@ -50,7 +50,7 @@ function gSheetDoData(json) {
         var nodes = [];
         var edges = [];
         
-        for(var r=3; r<data.length; r+=3) {
+        for(var r=4; r<data.length; r+=4) {
             var source = data[r]["gs$cell"]["$t"].toLowerCase();
             var target = data[r+1]["gs$cell"]["$t"].toLowerCase();
             var date = data[r+2]["gs$cell"]["$t"].toLowerCase();
