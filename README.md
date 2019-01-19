@@ -1,17 +1,9 @@
-# Introduction
+# Introdução
+Esse é uma ferramenta de Gestão à Vista das 1-1 da [dtidigital](http://dtidigital.com.br/) desenvolvida inicialmente por [matheusaraujo](https://github.com/matheusaraujo).
 
-Author: [dreampuf](https://github.com/dreampuf/)
+O repositório é um fork do [GraphvizOnline](https://github.com/dreampuf/GraphvizOnline).
 
-[GraphvizOnline](https://github.com/dreampuf/GraphvizOnline) could let you debug the graphviz languages online. [DEMO](http://dreampuf.github.io/GraphvizOnline/)
+Os dados são armazenados em uma planilha do GSheets, a ferramenta lê esses dados através de um link público e os converte para a linguagem DOT.
 
-# How to implement this
-
-- [viz.js](https://github.com/mdaines/viz.js) This repo has compile graphviz(C) to javascript via [emscripten](https://github.com/kripken/emscripten).
-- [ACE-editor](http://ace.ajax.org/) An amazing online editor.
-
-# License
-
-GraphvizOnline licensed under BSD-3 license. The dependencies:
-
-- [viz.js](https://github.com/mdaines/viz.js/blob/master/LICENSE) MIT
-- [ACE-editor](https://github.com/ajaxorg/ace/blob/master/LICENSE) BSD-2
+- [Referência](https://gist.github.com/terrywbrady/a03b25fe42959b304b1e) para ler os dados;
+- [Script](https://github.com/matheusaraujo/dti-1-1/blob/master/gsheet.js) para converter os dados;
