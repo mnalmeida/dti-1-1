@@ -1,7 +1,18 @@
 "use strict";
 
-const graphBegin = "digraph G { \n\tedge [dir = none]\n\tnode [shape = circle]\n";
-const graphEnd = "}"
+var graphBegin = "digraph G { \n\tedge [dir = none];\n\tnode [shape = circle];\n";
+graphBegin += "\tsubgraph cluster_0 {\n";
+graphBegin += "\t\tstyle=filled;";
+graphBegin += "\t\tcolor=\"#F5F5F5\"";
+graphBegin += "\t\tleng1 [label=\"<=14\ndias\", style=filled, color=\"#228b22\", fillcolor=\"#228b22\"];";
+graphBegin += "\t\tleng2 [label=\"<=21\ndias\", style=filled, color=\"#97be83\", fillcolor=\"#97be83\"];";
+graphBegin += "\t\tleng3 [label=\"<=28\ndias\", style=filled, color=\"#faf0e6\", fillcolor=\"#faf0e6\"];";
+graphBegin += "\t\tleng4 [label=\"<=35\ndias\", style=filled, color=\"#f9b9b2\", fillcolor=\"#f9b9b2\"];";
+graphBegin += "\t\tleng5 [label=\">35\ndias\", style=filled, color=\"#f08080\", fillcolor=\"#f08080\"];";
+graphBegin += "\t\tleng6 [label=\"ñ def\", style=filled, color=\"gray\", fillcolor=\"gray\"];";
+graphBegin += "\t\tlabel = \"legenda\";";
+graphBegin += "\t}";
+var graphEnd = "}";
 
 var graphStr = null;
 var nodes = [];
@@ -112,16 +123,20 @@ function gSheetGetNodeColor(date) {
     var timeDiff = Math.abs(date2.getTime() - date1.getTime());
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
     
-    if (diffDays < 15)
-        return "green";
-    else if (diffDays < 30)
-        return "orange";
-    else
-        return "red";
+    if (diffDays <= 14) 
+        return '#228b22';
+    if (diffDays <= 21)
+        return '#97be83';
+    if (diffDays <= 28)
+        return '#faf0e6';
+    if (diffDays <= 35)
+        return '#f9b9b2';
+    return '#f08080';
+
 }
 
 function gSheetCreateNodeStr(node) {    
-    return "\t{0} [style=filled, label=\"{1}\", color={2}, fillcolor={2}]; \n".format(node.id.replace('.', ''), node.label, node.color);
+    return "\t{0} [style=filled, label=\"{1}\", color=\"{2}\", fillcolor=\"{2}\"]; \n".format(node.id.replace('.', ''), node.label, node.color);
 }
 
 function gSheetClear() {
