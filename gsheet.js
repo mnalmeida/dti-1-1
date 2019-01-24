@@ -1,17 +1,17 @@
 "use strict";
 
-var graphBegin = "digraph G { \n\tedge [dir = none];\n\tnode [shape = circle];\n";
+var graphBegin = "digraph G { \n\tedge [dir = none];\n\tnode [shape = circle, fontname=Helvetica];\n";
 graphBegin += "\tsubgraph cluster_0 {\n";
-graphBegin += "\t\tstyle=filled;";
-graphBegin += "\t\tcolor=\"#F5F5F5\"";
-graphBegin += "\t\tleng1 [label=\"<=14\ndias\", style=filled, color=\"#228b22\", fillcolor=\"#228b22\"];";
-graphBegin += "\t\tleng2 [label=\"<=21\ndias\", style=filled, color=\"#97be83\", fillcolor=\"#97be83\"];";
-graphBegin += "\t\tleng3 [label=\"<=28\ndias\", style=filled, color=\"#faf0e6\", fillcolor=\"#faf0e6\"];";
-graphBegin += "\t\tleng4 [label=\"<=35\ndias\", style=filled, color=\"#f9b9b2\", fillcolor=\"#f9b9b2\"];";
-graphBegin += "\t\tleng5 [label=\">35\ndias\", style=filled, color=\"#f08080\", fillcolor=\"#f08080\"];";
-graphBegin += "\t\tleng6 [label=\"ñ def\", style=filled, color=\"gray\", fillcolor=\"gray\"];";
-graphBegin += "\t\tlabel = \"legenda\";";
-graphBegin += "\t}";
+graphBegin += "\t\tstyle=filled;\n";
+graphBegin += "\t\tcolor=\"#F5F5F5\"\n";
+graphBegin += "\t\tleng1 [label=\"<=14\ndias\", style=filled, color=\"#228b22\", fillcolor=\"#228b22\"];\n";
+graphBegin += "\t\tleng2 [label=\"<=21\ndias\", style=filled, color=\"#97be83\", fillcolor=\"#97be83\"];\n";
+graphBegin += "\t\tleng3 [label=\"<=28\ndias\", style=filled, color=\"#faf0e6\", fillcolor=\"#faf0e6\"];\n";
+graphBegin += "\t\tleng4 [label=\"<=35\ndias\", style=filled, color=\"#f9b9b2\", fillcolor=\"#f9b9b2\"];\n";
+graphBegin += "\t\tleng5 [label=\">35\ndias\", style=filled, color=\"#f08080\", fillcolor=\"#f08080\"];\n";
+graphBegin += "\t\tleng6 [label=\"ñ def\", style=filled, color=\"gray\", fillcolor=\"gray\"];\n";
+graphBegin += "\t\tlabel = \"legenda\";\n";
+graphBegin += "\t}\n";
 var graphEnd = "}";
 
 var graphStr = null;
@@ -31,7 +31,12 @@ function gSheetDoData(json) {
     try {
         var tribe = document.querySelector("#tribe select").value;                
         gSheetCreateNodesAndEdges(json.feed.entry, tribe);
-        graphStr = "{0}{1}{2}{3}".format(graphBegin, gSheetCreateNodesStr(), gSheetCreateEdgesStr(), graphEnd);
+        graphStr = "{0}{1}{2}{3}{4}".format(
+            graphBegin,
+            gSheetCreateTribeNameStr(tribe),
+            gSheetCreateNodesStr(), 
+            gSheetCreateEdgesStr(), 
+            graphEnd);
         console.log(graphStr);
     }
     catch(err) {
@@ -45,6 +50,10 @@ function gSheetGetData() {
     while(!graphStr && i < 100) 
         i++;
     return graphStr;
+}
+
+function gSheetCreateTribeNameStr(tribe) {
+    return "tribe [label=\"{0}\", shape=plaintext, fontsize=70]".format(tribe);
 }
 
 function gSheetCreateNodesStr() {

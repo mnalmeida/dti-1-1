@@ -19,6 +19,7 @@
       shareURLEl = document.querySelector("#shareurl"),
       reloadEl = document.querySelector("#reload"),
       reloadingEl = document.querySelector("#reloading"),
+      inforadEl = document.querySelector("#inforad"),
       errorEl = document.querySelector("#error");
 
     function show_status(text, hide) {
@@ -247,6 +248,36 @@
         }, 1000);
     }
 
+    function showInfoRad() {
+      var _gsheet = document.querySelector("#gsheet");
+      _gsheet.style.height = 0;
+      _gsheet.style.width = 0;
+      _gsheet.style.display = 'none';
+
+      var _options = document.querySelector("#options");
+      _options.style.left = 0;
+      _options.style.display = 'none';
+      reviewer.style.left = 0;
+
+      var tribes = ['dti', 'balboa', 
+        'dti', 'camaleao', 
+        'dti', 'curingas', 
+        'dti', 'gc', 
+        'dti', 'javalis', 
+        'dti', 'origami', 
+        'dti','rackers',
+        'dti', 'rubix',
+        'dti', 'triforce'];
+      
+      var itribes = 0;
+
+      setInterval(function() {
+        tribeEl.value = tribes[itribes++%tribes.length];
+        reloadGSheet();
+      }, 60 * 1000);
+
+    }
+
     window.onpopstate = function(event) {
       if (event.state != null && event.state.content != undefined) {
         editor.getSession().setValue(decodeURIComponent(event.state.content));
@@ -258,6 +289,7 @@
     rawEl.addEventListener("change", renderGraph);
     share.addEventListener("click", copyShareURL);
     reloadEl.addEventListener("click", reloadGSheet);
+    inforadEl.addEventListener("click", showInfoRad);
 
     /* come from sharing */
     /*if (location.hash.length > 1) {
