@@ -4,11 +4,11 @@ var graphBegin = "digraph G { \n\tedge [dir = none];\n\tnode [shape = circle, fo
 graphBegin += "\tsubgraph cluster_0 {\n";
 graphBegin += "\t\tstyle=filled;\n";
 graphBegin += "\t\tcolor=\"#F5F5F5\"\n";
-graphBegin += "\t\tleng1 [label=\"<=14\ndias\", style=filled, color=\"#228b22\", fillcolor=\"#228b22\"];\n";
-graphBegin += "\t\tleng2 [label=\"<=21\ndias\", style=filled, color=\"#97be83\", fillcolor=\"#97be83\"];\n";
-graphBegin += "\t\tleng3 [label=\"<=28\ndias\", style=filled, color=\"#faf0e6\", fillcolor=\"#faf0e6\"];\n";
-graphBegin += "\t\tleng4 [label=\"<=35\ndias\", style=filled, color=\"#f9b9b2\", fillcolor=\"#f9b9b2\"];\n";
-graphBegin += "\t\tleng5 [label=\">35\ndias\", style=filled, color=\"#f08080\", fillcolor=\"#f08080\"];\n";
+graphBegin += "\t\tleng1 [label=\"<=14\ndias\", style=filled, color=\"#09AA51\", fillcolor=\"#09AA51\"];\n";
+graphBegin += "\t\tleng2 [label=\"<=21\ndias\", style=filled, color=\"#93E247\", fillcolor=\"#93E247\"];\n";
+graphBegin += "\t\tleng3 [label=\"<=28\ndias\", style=filled, color=\"#FFC239\", fillcolor=\"#FFC239\"];\n";
+graphBegin += "\t\tleng4 [label=\"<=35\ndias\", style=filled, color=\"#EA7439\", fillcolor=\"#EA7439\"];\n";
+graphBegin += "\t\tleng5 [label=\">35\ndias\", style=filled, color=\"#ED1E2E\", fillcolor=\"#ED1E2E\"];\n";
 graphBegin += "\t\tleng6 [label=\"ñ def\", style=filled, color=\"gray\", fillcolor=\"gray\"];\n";
 graphBegin += "\t\tlabel = \"legenda\";\n";
 graphBegin += "\t}\n";
@@ -29,13 +29,13 @@ if (!String.prototype.format) {
 
 function gSheetDoData(json) {
     try {
-        var tribe = document.querySelector("#tribe select").value;                
-        gSheetCreateNodesAndEdges(json.feed.entry, tribe);
+        var selectedTribe = document.querySelector("#tribe select").value;                
+        gSheetCreateNodesAndEdges(json.feed.entry, selectedTribe);
         graphStr = "{0}{1}{2}{3}{4}".format(
             graphBegin,
-            gSheetCreateTribeNameStr(tribe),
+            gSheetCreateTribeNameStr(selectedTribe),
             gSheetCreateNodesStr(), 
-            gSheetCreateEdgesStr(), 
+            gSheetCreateEdgesStr(selectedTribe), 
             graphEnd);
         console.log(graphStr);
     }
@@ -64,10 +64,15 @@ function gSheetCreateNodesStr() {
     return graphNodes;
 }
 
-function gSheetCreateEdgesStr() {
+function gSheetCreateEdgesStr(selectedTribe) {
     var graphEdges = "";
     for(var i = 0; i < edges.length; i++) {
-        graphEdges += "\t{0} -> {1}; \n".format(edges[i].source.replace('.', ''), edges[i].target.replace('.', ''));
+        graphEdges += "\t{0} -> {1} [color=\"{2}\", penwidth={3}]; \n".format(
+            edges[i].source.replace('.', ''), 
+            edges[i].target.replace('.', ''),
+            gSheetGetEdgeColor(edges[i].tribe),
+            selectedTribe === 'dti' ? '3' : '1'
+        );
     }
     return graphEdges;
 }
@@ -85,7 +90,7 @@ function gSheetCreateNodesAndEdges(data, selectedTribe) {
 
         if (selectedTribe === "dti" || selectedTribe === tribe) {
             gSheetCreateNode(source, target, date);
-            gSheetCreateEdge(source, target);        
+            gSheetCreateEdge(source, target, tribe);        
         }
     }
 
@@ -115,8 +120,8 @@ function gSheetCreateNode(source, target, date) {
     }
 }
 
-function gSheetCreateEdge(source, target) {
-    edges.push({source: source, target: target});
+function gSheetCreateEdge(source, target, tribe) {
+    edges.push({source: source, target: target, tribe: tribe});
 }
 
 function gSheetGetNodeLabel(name) {
@@ -133,15 +138,39 @@ function gSheetGetNodeColor(date) {
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
     
     if (diffDays <= 14) 
-        return '#228b22';
+        return '#09AA51';
     if (diffDays <= 21)
-        return '#97be83';
+        return '#93E247';
     if (diffDays <= 28)
-        return '#faf0e6';
+        return '#FFC239';
     if (diffDays <= 35)
-        return '#f9b9b2';
-    return '#f08080';
+        return '#EA7439';
+    return '#ED1E2E';
+}
 
+function gSheetGetEdgeColor(tribe) {
+    if (tribe === 'dti')
+        return '#514C9F';
+    if (tribe === 'balboa')
+        return '#3B8CC6';
+    if (tribe === 'cameleao')
+        return '#46DF81';
+    if (tribe === 'curingas')
+        return '#15992C';
+    if (tribe === 'gc')
+        return '#2CB6C3';
+    if (tribe === 'javalis')
+        return '#D4DB26';
+    if (tribe === 'origami')
+        return '#00A3AF';
+    if (tribe === 'rackers')
+        return '#00A3AF';
+    if (tribe === 'rubix')
+        return '#F54F4F';
+    if (tribe === 'triforce')
+        return '#123A73';
+
+    return '#000000';
 }
 
 function gSheetCreateNodeStr(node) {    
