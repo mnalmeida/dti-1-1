@@ -153,7 +153,7 @@ function gSheetGetEdgeColor(tribe) {
         return '#514C9F';
     if (tribe === 'balboa')
         return '#3B8CC6';
-    if (tribe === 'cameleao')
+    if (tribe === 'camaleao')
         return '#46DF81';
     if (tribe === 'curingas')
         return '#15992C';
