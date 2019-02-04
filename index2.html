@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+  <html lang="utf-8">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>dti 1-1</title>
+      <link rel="stylesheet" href="index.css" media="screen" >
+      <style>
+          #gsheet {
+            height: 0;
+            width: 0;
+            display: none;
+          }
+
+          #options {
+            left: 0;
+            display: none;
+          }
+
+          #review {
+            left: 0;
+          }
+
+      </style>
+  </head>
+  <body>    
+    <iframe id="gsheet" src="https://docs.google.com/spreadsheets/d/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/edit?usp=sharing"></iframe>
+    <pre id="editor">digraph G {
+
+      subgraph cluster_0 {
+        style=filled;
+        color=lightgrey;
+        node [style=filled,color=white];
+        a0 -> a1 -> a2 -> a3;
+        label = "process #1";
+      }
+
+      subgraph cluster_1 {
+        node [style=filled];
+        b0 -> b1 -> b2 -> b3;
+        label = "process #2";
+        color=blue
+      }
+      start -> a0;
+      start -> b0;
+      a1 -> b3;
+      b2 -> a3;
+      a3 -> a0;
+      a3 -> end;
+      b3 -> end;
+
+      start [shape=Mdiamond];
+      end [shape=Msquare];
+    }</pre>
+
+    <div id="options">
+      <div style="display: none">
+        <label id="engine">
+            Engine:
+            <select disabled>
+                <option>circo</option>
+                <option>dot</option>
+                <option selected="">fdp</option>
+                <option>neato</option>
+                <option>osage</option>
+                <option>twopi</option>
+            </select>
+        </label>
+      </div>
+
+      <label id="tribe">
+        Tribe:
+        <select>
+          <option selected="">dti</option>
+          <option>balboa</option>
+          <option>camaleao</option>
+          <option>curingas</option>
+          <option>gc</option>
+          <option>javalis</option>
+          <option>origami</option>
+          <option>rackers</option>
+          <option>rubix</option>
+          <option>triforce</option>
+        </select>
+      </label>
+
+      <label id="format">
+          Format:
+          <select>
+              <option selected="">svg</option>
+              <option>png-image-element</option>
+              <option>json</option>
+              <option>xdot</option>
+              <option>plain</option>
+              <option>ps</option>
+          </select>
+      </label>
+
+      <label>
+        <input type="button" value="Reload" id="reload">
+        <label id="reloading" style="display: none">Reloading ...</label>
+      </label>
+
+      <label>
+        <input type="button" value="Information Radiators" id="inforad">
+      </label>
+
+      <div style="display: none">
+        <label id="raw" class="disabled">
+            <input type="checkbox" disabled=""> Show raw output
+        </label>
+        <label>
+            <input type="button" value="Share" id="share">
+        </label>
+        <input type="input" value="" id="shareurl">
+      </div>
+
+    </div>
+  
+    <div id="review">
+      <div id="error"></div>
+    </div>
+    
+    <div id="status"></div>
+    
+    <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script SRC="gsheet.js" type="text/javascript" charset="utf-8"></script>
+    <script id="gsheetscript" src="https://spreadsheets.google.com/feeds/cells/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/1/public/values?alt=json-in-script&callback=gSheetDoData"></script>
+    <script src="index.js"></script>
+    <script src="viz.js" type="text/javascript" charset="utf-8"></script>
+
+  </body>
+</html>
