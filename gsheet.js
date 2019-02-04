@@ -4,11 +4,11 @@ var graphBegin = "digraph G { \n\tedge [dir = none];\n\tnode [shape = circle, fo
 graphBegin += "\tsubgraph cluster_0 {\n";
 graphBegin += "\t\tstyle=filled;\n";
 graphBegin += "\t\tcolor=\"#F5F5F5\"\n";
-graphBegin += "\t\tleng1 [label=\"<=14\ndias\", style=filled, color=\"#09AA51\", fillcolor=\"#09AA51\"];\n";
-graphBegin += "\t\tleng2 [label=\"<=21\ndias\", style=filled, color=\"#93E247\", fillcolor=\"#93E247\"];\n";
-graphBegin += "\t\tleng3 [label=\"<=28\ndias\", style=filled, color=\"#FFC239\", fillcolor=\"#FFC239\"];\n";
-graphBegin += "\t\tleng4 [label=\"<=35\ndias\", style=filled, color=\"#EA7439\", fillcolor=\"#EA7439\"];\n";
-graphBegin += "\t\tleng5 [label=\">35\ndias\", style=filled, color=\"#ED1E2E\", fillcolor=\"#ED1E2E\"];\n";
+graphBegin += "\t\tleng1 [label=\"<=14d\", style=filled, color=\"#09AA51\", fillcolor=\"#09AA51\"];\n";
+graphBegin += "\t\tleng2 [label=\"<=21d\", style=filled, color=\"#93E247\", fillcolor=\"#93E247\"];\n";
+graphBegin += "\t\tleng3 [label=\"<=28d\", style=filled, color=\"#FFC239\", fillcolor=\"#FFC239\"];\n";
+graphBegin += "\t\tleng4 [label=\"<=35d\", style=filled, color=\"#EA7439\", fillcolor=\"#EA7439\"];\n";
+graphBegin += "\t\tleng5 [label=\">35d\", style=filled, color=\"#ED1E2E\", fillcolor=\"#ED1E2E\"];\n";
 graphBegin += "\t\tleng6 [label=\"ñ def\", style=filled, color=\"gray\", fillcolor=\"gray\"];\n";
 graphBegin += "\t\tlabel = \"legenda\";\n";
 graphBegin += "\t}\n";
@@ -53,7 +53,7 @@ function gSheetGetData() {
 }
 
 function gSheetCreateTribeNameStr(tribe) {
-    return "tribe [label=\"{0}\", shape=plaintext, fontsize=70]".format(tribe);
+    return "\ttribe [label=\"{0}\", shape=plaintext, fontsize=70]\n".format(tribe);
 }
 
 function gSheetCreateNodesStr() {
