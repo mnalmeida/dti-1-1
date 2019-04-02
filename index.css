@@ -52,7 +52,7 @@ body {
     bottom: 0;
     right: 50%;
     left: 0;
-    overflow: scroll;
+    overflow: none;
 }
 
 #options {
@@ -139,5 +139,34 @@ body {
 
 #table-delayed{
     left: 50%;
+    top: 15%;
     position: absolute;
+    width: 40%;
+    font-family: 'Helvetica';
+}
+
+#table-delayed table {
+	width:100%;
+}
+
+#table-delayed thead {
+	width:100%;
+	background:#4D499D;
+    padding:20px;
+    color: white;
+    font-weight: bold;
+}
+
+#table-delayed tr {
+	width:100%;
+}
+
+#table-delayed tbody tr:nth-of-type(odd){
+    background:#EEEEEE;
+}
+
+#table-delayed tbody, #table-delayed tr td{
+    text-align:center;
+    padding: 20px;
+    text-transform: capitalize;
 }
