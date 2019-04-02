@@ -13,6 +13,10 @@ body {
   margin: 0 0;
 }
 
+.hide {
+    display: none;
+}
+
 #topbar {
   width: 100%;
   background-color: black;

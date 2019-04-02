@@ -22,6 +22,7 @@
     inforadEl = document.querySelector("#inforad"),
     errorEl = document.querySelector("#error"),
     tableEl = document.querySelector('#table-delayed-body');
+    tableDiv = document.querySelector('#table-delayed');
 
   function show_status(text, hide) {
     hide = hide || 0;
@@ -137,6 +138,12 @@
       reviewer.classList.remove("error");
       updateOutput(e.data.result);
       tableEl.innerHTML = getTableData();
+      if(tableEl.innerHTML !== ''){
+        tableDiv.classList.remove('hide');
+      }
+      else {
+        tableDiv.classList.add('hide');
+      }
     }, false);
     worker.addEventListener('error', function (e) {
       show_error(e.detail);
