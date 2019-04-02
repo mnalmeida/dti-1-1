@@ -29,7 +29,7 @@ body {
   position: absolute;
   /*top: 0;
   bottom: 0;*/
-  right: 50%;
+  right: 0%;
   left: 0;
   width: 50%;
   height: 100%;
@@ -50,8 +50,8 @@ body {
     position: absolute;
     top: 50px;
     bottom: 0;
-    right: 0;
-    left: 50%;
+    right: 50%;
+    left: 0;
     overflow: scroll;
 }
 
@@ -135,4 +135,9 @@ body {
     background: red;
     color: white;
     z-index: 1;
+}
+
+#table-delayed{
+    left: 50%;
+    position: absolute;
 }

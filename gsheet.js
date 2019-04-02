@@ -1,22 +1,12 @@
 "use strict";
 
 var graphBegin = "digraph G { \n\tedge [dir = none];\n\tnode [shape = circle, fontname=Helvetica];\n";
-graphBegin += "\tsubgraph cluster_0 {\n";
-graphBegin += "\t\tstyle=filled;\n";
-graphBegin += "\t\tcolor=\"#F5F5F5\"\n";
-graphBegin += "\t\tleng1 [label=\"<=14d\", style=filled, color=\"#09AA51\", fillcolor=\"#09AA51\"];\n";
-graphBegin += "\t\tleng2 [label=\"<=21d\", style=filled, color=\"#93E247\", fillcolor=\"#93E247\"];\n";
-graphBegin += "\t\tleng3 [label=\"<=28d\", style=filled, color=\"#FFC239\", fillcolor=\"#FFC239\"];\n";
-graphBegin += "\t\tleng4 [label=\"<=35d\", style=filled, color=\"#EA7439\", fillcolor=\"#EA7439\"];\n";
-graphBegin += "\t\tleng5 [label=\">35d\", style=filled, color=\"#ED1E2E\", fillcolor=\"#ED1E2E\"];\n";
-graphBegin += "\t\tleng6 [label=\"ñ def\", style=filled, color=\"gray\", fillcolor=\"gray\"];\n";
-graphBegin += "\t\tlabel = \"legenda\";\n";
-graphBegin += "\t}\n";
 var graphEnd = "}";
 
 var graphStr = null;
 var nodes = [];
 var edges = [];
+var COLOR_DELAYED = '#ED1E2E';
 
 if (!String.prototype.format) {
     String.prototype.format = function() {
@@ -29,11 +19,11 @@ if (!String.prototype.format) {
 
 function gSheetDoData(json) {
     try {
-        var selectedTribe = document.querySelector("#tribe select").value;                
+        var selectedTribe = 'Camaleão';                
         gSheetCreateNodesAndEdges(json.feed.entry, selectedTribe);
-        graphStr = "{0}{1}{2}{3}{4}".format(
+        graphStr = "{0}{1}{2}{3}".format(
             graphBegin,
-            gSheetCreateTribeNameStr(selectedTribe),
+            //gSheetCreateTribeNameStr(selectedTribe),
             gSheetCreateNodesStr(), 
             gSheetCreateEdgesStr(selectedTribe), 
             graphEnd);
@@ -52,6 +42,16 @@ function gSheetGetData() {
     return graphStr;
 }
 
+function getTableData() {
+    if (nodes.some(n => n.color === COLOR_DELAYED)) {
+        var delayedNodes = nodes.filter(n => n.color === COLOR_DELAYED);
+        return delayedNodes.reduce(function(html, n) {
+            return html + ('<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>'.format(n.source, n.target, n.date));
+        }, '');
+    }
+    return '';
+}
+
 function gSheetCreateTribeNameStr(tribe) {
     return "\ttribe [label=\"{0}\", shape=plaintext, fontsize=70];\n".format(tribe);
 }
@@ -68,9 +68,9 @@ function gSheetCreateEdgesStr(selectedTribe) {
     var graphEdges = "";
     for(var i = 0; i < edges.length; i++) {
         graphEdges += "\t{0} -> {1} [color=\"{2}\", penwidth={3}]; \n".format(
-            edges[i].source.replace('.', ''), 
-            edges[i].target.replace('.', ''),
-            gSheetGetEdgeColor(edges[i].tribe),
+            edges[i].source.replace(' ', ''),
+            edges[i].target.replace(' ', ''),
+            gSheetGetEdgeColor(),
             selectedTribe === 'dti' ? '3' : '1'
         );
     }
@@ -82,18 +82,22 @@ function gSheetCreateNodesAndEdges(data, selectedTribe) {
     nodes = [];
     edges = [];
 
-    for(var r=4; r<data.length; r+=4) {
-        var source = data[r]["gs$cell"]["$t"].toLowerCase();
-        var target = data[r+1]["gs$cell"]["$t"].toLowerCase();
-        var date = data[r+2]["gs$cell"]["$t"].toLowerCase();
-        var tribe = data[r+3]["gs$cell"]["$t"].toLowerCase();
-
-        if (selectedTribe === "dti" || selectedTribe === tribe) {
-            gSheetCreateNode(source, target, date);
-            gSheetCreateEdge(source, target, tribe);        
+    var r = 15;
+    while( r < data.length){
+        if (data[r]["gs$cell"]["col"] == "2") {
+            var source = data[r]["gs$cell"]["$t"].toLowerCase();
+            var target = data[r+1]["gs$cell"]["col"] == "3" ? data[r+1]["gs$cell"]["$t"].toLowerCase() : '';
+            var date = data[r+2]["gs$cell"]["col"] == "4" ? data[r+2]["gs$cell"]["$t"].toLowerCase() : '';
+            var tribe = 'Camaleão';
+    
+            if (target !== '' && date !== '') {
+                gSheetCreateNode(source, target, date);
+                gSheetCreateEdge(source, target, tribe);        
+            }
+            r = r + 4;
         }
+        r = r + 1;
     }
-
 }
 
 function gSheetCreateNode(source, target, date) {
@@ -101,13 +105,19 @@ function gSheetCreateNode(source, target, date) {
         nodes.push({ 
             id: source, 
             label: gSheetGetNodeLabel(source),
-            color: gSheetGetNodeColor(date)
+            color: gSheetGetNodeColor(date),
+            source: source,
+            target: target,
+            date: date
         });
     }
     else {
         var i = nodes.findIndex(n => n.id === source);                
         if (i) {
             nodes[i].color = gSheetGetNodeColor(date);
+            nodes[i].source = source;
+            nodes[i].target = target;
+            nodes[i].date = date;
         }
     }
     
@@ -115,7 +125,10 @@ function gSheetCreateNode(source, target, date) {
         nodes.push({ 
             id: target,
             label: gSheetGetNodeLabel(target),
-            color: 'gray'
+            color: 'gray',
+            source: source,
+            target: target,
+            date: date
         });
     }
 }
@@ -125,56 +138,33 @@ function gSheetCreateEdge(source, target, tribe) {
 }
 
 function gSheetGetNodeLabel(name) {
-    var names = name.toUpperCase().split('.');
+    var names = name.toUpperCase().split(' ');
     if (names.length === 2)
         return names[0][0] + names[1][0];
     return name[0];
 }
 
 function gSheetGetNodeColor(date) {
-    var date1 = new Date(date);
+    var dateParts = date.split("/");
+    var date1 = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
     var date2 = new Date();
     var timeDiff = Math.abs(date2.getTime() - date1.getTime());
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
     
-    if (diffDays <= 14) 
-        return '#09AA51';
-    if (diffDays <= 21)
+    if (diffDays <= 28) 
         return '#93E247';
-    if (diffDays <= 28)
+    else if (diffDays >=  28 && diffDays <= 30)
         return '#FFC239';
-    if (diffDays <= 35)
-        return '#EA7439';
-    return '#ED1E2E';
+    if (diffDays >= 31)
+        return COLOR_DELAYED;
 }
 
-function gSheetGetEdgeColor(tribe) {
-    if (tribe === 'dti')
-        return '#514C9F';
-    if (tribe === 'balboa')
-        return '#3B8CC6';
-    if (tribe === 'camaleao')
-        return '#46DF81';
-    if (tribe === 'curingas')
-        return '#15992C';
-    if (tribe === 'gc')
-        return '#2CB6C3';
-    if (tribe === 'javalis')
-        return '#D4DB26';
-    if (tribe === 'origami')
-        return '#00A3AF';
-    if (tribe === 'rackers')
-        return '#00A3AF';
-    if (tribe === 'rubix')
-        return '#F54F4F';
-    if (tribe === 'triforce')
-        return '#123A73';
-
-    return '#000000';
+function gSheetGetEdgeColor() {
+    return '#4D499D';
 }
 
 function gSheetCreateNodeStr(node) {    
-    return "\t{0} [style=filled, label=\"{1}\", color=\"{2}\", fillcolor=\"{2}\"]; \n".format(node.id.replace('.', ''), node.label, node.color);
+    return "\t{0} [style=filled, label=\"{1}\", color=\"{2}\", fillcolor=\"{2}\"]; \n".format(node.id.replace(' ', ''), node.label, node.color);
 }
 
 function gSheetClear() {

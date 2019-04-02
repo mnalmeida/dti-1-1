@@ -7,7 +7,20 @@
       <link rel="stylesheet" href="index.css" media="screen" >
   </head>
   <body>    
-    <iframe id="gsheet" src="https://docs.google.com/spreadsheets/d/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/edit?usp=sharing"></iframe>
+    <div id="table-delayed">
+      <p><strong>1-1 Atrasadas</strong></p>
+      <table>
+        <thead>
+          <tr>
+            <td>Colaborador</td>
+            <td>Responsável</td>
+            <td>Data Último 1-1</td>
+          </tr>
+        </thead>
+        <tbody id=table-delayed-body>
+        </tbody>
+      </table>
+    </div>
     <pre id="editor">digraph G {
 
       subgraph cluster_0 {
@@ -36,7 +49,7 @@
       end [shape=Msquare];
     }</pre>
 
-    <div id="options">
+    <div id="options" style="display: none">
       <div style="display: none">
         <label id="engine">
             Engine:
@@ -108,7 +121,7 @@
     
     <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script SRC="gsheet.js" type="text/javascript" charset="utf-8"></script>
-    <script id="gsheetscript" src="https://spreadsheets.google.com/feeds/cells/18VQygZXodUcmkli9RQjccoUY8qUfw6Vf5B9PChnmZKI/1/public/values?alt=json-in-script&callback=gSheetDoData"></script>
+    <script id="gsheetscript" src="https://spreadsheets.google.com/feeds/cells/1adsQBWGCHEgZO7mRzQRdJ57FXdC6UBK5-tiFz4RZS4A/1/public/values?alt=json-in-script&callback=gSheetDoData"></script>
     <script src="index.js"></script>
     <script src="viz.js" type="text/javascript" charset="utf-8"></script>
 
