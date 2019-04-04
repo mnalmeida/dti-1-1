@@ -68,8 +68,8 @@ function gSheetCreateEdgesStr(selectedTribe) {
     var graphEdges = "";
     for(var i = 0; i < edges.length; i++) {
         graphEdges += "\t{0} -> {1} [color=\"{2}\", penwidth={3}]; \n".format(
-            edges[i].source.replace(' ', ''),
-            edges[i].target.replace(' ', ''),
+            edges[i].source.replace(new RegExp(' ', 'g'), ''),
+            edges[i].target.replace(new RegExp(' ', 'g'), ''),
             gSheetGetEdgeColor(),
             selectedTribe === 'dti' ? '3' : '1'
         );
@@ -164,7 +164,7 @@ function gSheetGetEdgeColor() {
 }
 
 function gSheetCreateNodeStr(node) {    
-    return "\t{0} [style=filled, label=\"{1}\", color=\"{2}\", fillcolor=\"{2}\"]; \n".format(node.id.replace(' ', ''), node.label, node.color);
+    return "\t{0} [style=filled, label=\"{1}\", color=\"{2}\", fillcolor=\"{2}\"]; \n".format(node.id.replace(new RegExp(' ', 'g'), ''), node.label, node.color);
 }
 
 function gSheetClear() {
