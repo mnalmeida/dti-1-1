@@ -14,17 +14,32 @@ function exibeDados(aniversariosData) {
             return (+elemento.birthday.substring(3, 5)) === ((new Date()).getMonth() + 1)
         });
 
-        var tableEl = document.querySelector('#aniversarios');
-        tableEl.innerHTML = '';
-        var tamanhoBloco = 100 / aniversariosData.length;
+        var segundaLinha = document.querySelector('#aniversarios');
+        segundaLinha.innerHTML = '';
+        var primeiraLinha = document.querySelector('#aniversarios-titulo');
+        primeiraLinha.innerHTML = '';
+        document.querySelector('.titulo-wrapper .titulo').style.width = aniversariosData.length > 4 ? '50%' : '100%';
+        document.querySelector('body').style.background = aniversariosData.length > 4 ? 'linear-gradient(180deg, #4C4489 75%, #FF1478 50%)' : 'linear-gradient(180deg, #4C4489 50%, #FF1478 50%);'
 
-        aniversariosData.forEach(function(elemento){
+        aniversariosData.forEach(function(elemento, index) {
             var htmlTemplateAniversariante = document.querySelector('#template-aniversariante .bloco-aniversario').cloneNode(true);
-            htmlTemplateAniversariante.style.width = tamanhoBloco + '%';
             htmlTemplateAniversariante.querySelector('img').setAttribute("src", elemento.image);
             htmlTemplateAniversariante.querySelector('p.nome').innerHTML = elemento.name;
             htmlTemplateAniversariante.querySelector('p.data').innerHTML = elemento.birthday;
-            tableEl.appendChild(htmlTemplateAniversariante);
+            
+            if(aniversariosData.length == 5 && index < 1) {
+                htmlTemplateAniversariante.style.width = '50%';
+                primeiraLinha.appendChild(htmlTemplateAniversariante);
+            }
+            else if (aniversariosData.length == 6 && index < 2) {
+                htmlTemplateAniversariante.style.width = '25%';
+                primeiraLinha.appendChild(htmlTemplateAniversariante);
+            }
+            else {
+                var tamanhoBloco = aniversariosData.length > 4 ? 25 : (100 / aniversariosData.length);
+                htmlTemplateAniversariante.style.width = tamanhoBloco + '%';
+                segundaLinha.appendChild(htmlTemplateAniversariante);
+            }
         });
     }
 }

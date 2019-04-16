@@ -7,10 +7,14 @@ body {
     background: linear-gradient(180deg, #4C4489 50%, #FF1478 50%);
     margin: 0px;
     height: 100vh;
+    padding-top: 20px;
+    overflow: hidden;
 }
   
 #aniversarios {
     padding-top: 50px;
+    float: left;
+    width: 100%;
 }
 
 .bloco-aniversario {
@@ -26,6 +30,7 @@ body {
     border-radius: 50%;
     margin: auto;
 }
+
 .profile-pic {
   display: inline;
   margin: 0 auto;
@@ -34,13 +39,19 @@ body {
   width: auto;
 }
 
+.titulo-wrapper {
+    width: 100%;
+    float: left;
+}
 .titulo {
     text-align: center;
     font-family: happy-birthday;
     color: white;
     font-size: 160px;
     font-weight: normal;
-    margin: 0px
+    margin: 0px;
+    float: left;
+    width: 100%;
 }
 
 .card-aniversario {
@@ -62,8 +73,9 @@ body {
 }
 
 .shape.nome {
-    width: 60%;
+    width: 65%;
     margin: auto;
+    font-size: 20px;
 }
 
 .shape.data {
@@ -71,12 +83,21 @@ body {
     margin-top: 10px;
     margin: auto;
     margin-right: 0px;
+    font-size: 22px;
 }
 
 .shape p{
     margin-top: -35px;
     color: #FF1478;
     font-weight: bold;
-    font-size: 20px;
     font-family: 'Poppins', sans-serif;
+    word-break: break-all;
+}
+
+#aniversarios-titulo p{
+    color: #4C4489;
+}
+
+#aniversarios p {
+    color: #FF1478;
 }
