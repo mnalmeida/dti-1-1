@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+  <html lang="utf-8">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Aniversariantes Camaleão</title>
+      <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+      <link rel="stylesheet" href="aniversariantes.css" media="screen" >
+  </head>
+  <body>
+    <h1 class="titulo">Happy Birthday!</h1>
+    <div id="aniversarios">
+    </div>
+    <div id="template-aniversariante" style="display: none">
+      <div class="bloco-aniversario">
+        <div class="card-aniversario">
+          <div class="image-cropper">
+            <img src="" class="profile-pic">
+          </div>
+          <div class="shape-wrapper">
+            <div class="shape data">
+              <p class="data"></p>
+            </div>
+            <div class="shape nome">
+              <p class="nome"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script SRC="gsheet.js" type="text/javascript" charset="utf-8"></script> -->
+    <script src="aniversariantes.js"></script>
+    <script id="gsheetscript" src="https://spreadsheets.google.com/feeds/cells/1adsQBWGCHEgZO7mRzQRdJ57FXdC6UBK5-tiFz4RZS4A/1/public/values?alt=json-in-script&callback=gSheetGetBirthdays"></script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+@font-face {
+    font-family: happy-birthday;
+    src: url(WildernessTypeface-Regular.ttf);
+  }
+
+body {
+    background: linear-gradient(180deg, #4C4489 50%, #FF1478 50%);
+    margin: 0px;
+    height: 100vh;
+}
+  
+#aniversarios {
+    padding-top: 50px;
+}
+
+.bloco-aniversario {
+    text-align: center;
+    float: left;
+}
+
+.image-cropper {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: auto;
+}
+.profile-pic {
+  display: inline;
+  margin: 0 auto;
+  margin-left: -25%;
+  height: 100%;
+  width: auto;
+}
+
+.titulo {
+    text-align: center;
+    font-family: happy-birthday;
+    color: white;
+    font-size: 160px;
+    font-weight: normal;
+    margin: 0px
+}
+
+.card-aniversario {
+    width: 100%;
+    margin: auto;
+    background-color: transparent;
+}
+
+.shape-wrapper {
+    width: 70%;
+    margin: auto
+}
+
+.shape {
+    border-top: 35px solid white;
+    border-left: 10px solid transparent;
+    border-right: 4px solid transparent;
+    height: 0;
+}
+
+.shape.nome {
+    width: 60%;
+    margin: auto;
+}
+
+.shape.data {
+    width: 30%;
+    margin-top: 10px;
+    margin: auto;
+    margin-right: 0px;
+}
+
+.shape p{
+    margin-top: -35px;
+    color: #FF1478;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+}

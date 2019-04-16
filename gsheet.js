@@ -6,6 +6,7 @@ var graphEnd = "}";
 var graphStr = null;
 var nodes = [];
 var edges = [];
+var aniversarios = [];
 var COLOR_DELAYED = '#ED1E2E';
 
 if (!String.prototype.format) {
@@ -27,6 +28,7 @@ function gSheetDoData(json) {
             gSheetCreateNodesStr(), 
             gSheetCreateEdgesStr(selectedTribe), 
             graphEnd);
+        gSheetGetBirthdays(json.feed.entry);
         console.log(graphStr);
     }
     catch(err) {
@@ -35,11 +37,36 @@ function gSheetDoData(json) {
     }
 }
 
+function gSheetGetBirthdays(data) {
+    var r = 15;
+    while( r < data.length){
+        if (data[r]["gs$cell"]["col"] == "2") {
+            var bDayIndex = r;
+            while(data[bDayIndex]["gs$cell"]["col"] !== "10") {
+                bDayIndex += 1;
+            }
+            aniversarios.push({
+                name: data[r]["gs$cell"]["$t"],
+                birthday: data[bDayIndex]["gs$cell"]["$t"]
+            })
+            r = bDayIndex + 1;
+        }
+        r = r + 1;
+    }
+}
+
 function gSheetGetData() {    
     var i = 0;
     while(!graphStr && i < 100) 
         i++;
     return graphStr;
+}
+
+function gSheetGetBirthdayData() {
+    var i = 0;
+    while(aniversarios.length <= 0 && i < 100) 
+        i++;
+    return aniversarios;
 }
 
 function getTableData() {
