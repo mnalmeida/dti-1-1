@@ -57,7 +57,7 @@ function gSheetGetBirthdays(json) {
     while( r < data.length){
         if (data[r]["gs$cell"]["col"] == "2") {
             var bDayIndex = r;
-            while(data[bDayIndex]["gs$cell"]["col"] !== "10") {
+            while(data[bDayIndex]["gs$cell"]["col"] !== "11") {
                 bDayIndex += 1;
             }
             aniversarios.push({
