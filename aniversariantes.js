@@ -74,7 +74,7 @@ function gSheetGetBirthdays(json) {
 function start() {
     setInterval(function() {
         reload();
-    }, 60 * 1000);
+    }, 60 * 100);
   }
 
   function reload() {
