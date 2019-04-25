@@ -74,8 +74,14 @@ function gSheetGetBirthdays(json) {
 function start() {
     setInterval(function() {
         reload();
-    }, 60 * 100);
+    }, 60 * 1000);
   }
+
+var sortByProperty = function (property) {
+    return function (x, y) {
+        return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+    };
+};
 
   function reload() {
     clear();
@@ -92,8 +98,9 @@ function start() {
 
     setTimeout(function() {
       var aniversariosData = gSheetGetBirthdayData();
-      if (aniversariosData.length > 0)
-        exibeDados(aniversariosData);
+      aniversariosData.sort(sortByProperty('birthday'));
+      if (aniversariosData.length > 0){
+	  exibeDados(aniversariosData);}
       }, 1000);
   }
 
